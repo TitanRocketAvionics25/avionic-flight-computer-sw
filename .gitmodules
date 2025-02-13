@@ -4,3 +4,6 @@
 [submodule "tools/unity-test-fixture-setup"]
 	path = tools/unity-test-fixture-setup
 	url = https://github.com/dylanR33/unity-test-fixture-setup.git
+[submodule "test/test-utils"]
+	path = test/test-utils
+	url = https://github.com/dylanR33/test-utils.git

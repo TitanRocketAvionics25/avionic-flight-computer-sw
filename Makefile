@@ -4,8 +4,7 @@ hw_sources = src/ src/startup
 
 build = build
 
-#UTFS_MODULE_DIRS = test/fakes test/spys $(sources)
-UTFS_MODULE_DIRS = $(sources)
+UTFS_MODULE_DIRS = test/test-utils/fakes test/test-utils/spys $(sources)
 UTFS_TEST_DIR = test
 UTFS_BUILD_DIR = $(build)
 
