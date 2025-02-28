@@ -1,6 +1,6 @@
 sources = 
 
-hw_sources = src/ src/startup
+hw_sources = src/ src/startup src/SystemClock
 
 build = build
 
