@@ -1,6 +1,8 @@
 #ifndef __BMI088_DEFS_H__
 #define __BMI088_DEFS_H__
 
+#define SLAVE_ADDRESS       0x18U
+
 // Accelerometer Register Address Definitions
 #define ACC_SOFTRESET       0x7EU
 #define ACC_PWR_CTRL        0x7DU
