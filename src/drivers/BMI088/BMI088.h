@@ -5,8 +5,8 @@
 
 typedef enum
 {
-    SUCCESS,
-    FAIL
+    BMI088_SUCCESS,
+    BMI088_FAIL
 } BMI088Status;
 
 typedef struct

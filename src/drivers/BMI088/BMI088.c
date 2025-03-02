@@ -10,9 +10,9 @@ BMI088Status BMI088_SetInterface( BMI088Interface* inter )
     if ( inter->i2cWrite && inter->i2cRead )
     {
         interface = *inter;
-        return SUCCESS;
+        return BMI088_SUCCESS;
     }
-    return FAIL;
+    return BMI088_FAIL;
 };
 
 void BMI088_Read( uint8_t startAddr, uint8_t* rxBuff, uint16_t rxSize )

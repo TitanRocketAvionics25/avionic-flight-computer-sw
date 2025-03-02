@@ -42,10 +42,10 @@ TEST( BMI088, RequireFullInterface )
         .i2cRead = NULL
     };
 
-    TEST_ASSERT_EQUAL( FAIL, BMI088_SetInterface( &inter ) );
+    TEST_ASSERT_EQUAL( BMI088_FAIL, BMI088_SetInterface( &inter ) );
 
     inter.i2cRead = FakeRead_Read8ArrDiffSize;
-    TEST_ASSERT_EQUAL( SUCCESS, BMI088_SetInterface( &inter ) );
+    TEST_ASSERT_EQUAL( BMI088_SUCCESS, BMI088_SetInterface( &inter ) );
 }
 
 
