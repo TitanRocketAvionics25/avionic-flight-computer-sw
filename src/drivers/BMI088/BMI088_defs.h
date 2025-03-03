@@ -180,58 +180,106 @@
 #define GYRO_INT_STAT_1_DRDY_Pos                    7U
 #define GYRO_INT_STAT_1_DRDY_Msk                    0x1U << GYRO_INT_STAT_1_DRDY_Pos
 
+
 // Accelerometer Parameter Definitions
 
 // ACC_CONF Parameters
-#define ACC_CONF_BWP_OSR4               0x08
-#define ACC_CONF_BWP_OSR2               0x09
-#define ACC_CONF_BWP_NORMAL             0x0A
+#define ACC_CONF_BWP_OSR4                           0x08
+#define ACC_CONF_BWP_OSR2                           0x09
+#define ACC_CONF_BWP_NORMAL                         0x0A
 
-#define ACC_CONF_ODR_12_5_HZ            0x05
-#define ACC_CONF_ODR_25_HZ              0x06
-#define ACC_CONF_ODR_50_HZ              0x07
-#define ACC_CONF_ODR_100_HZ             0x08
-#define ACC_CONF_ODR_200_HZ             0x09
-#define ACC_CONF_ODR_400_HZ             0x0A
-#define ACC_CONF_ODR_800_HZ             0x0B
-#define ACC_CONF_ODR_1600_HZ            0x0C
+#define ACC_CONF_ODR_12_5_HZ                        0x05
+#define ACC_CONF_ODR_25_HZ                          0x06
+#define ACC_CONF_ODR_50_HZ                          0x07
+#define ACC_CONF_ODR_100_HZ                         0x08
+#define ACC_CONF_ODR_200_HZ                         0x09
+#define ACC_CONF_ODR_400_HZ                         0x0A
+#define ACC_CONF_ODR_800_HZ                         0x0B
+#define ACC_CONF_ODR_1600_HZ                        0x0C
 
 // ACC_RANGE Parameters
-#define ACC_RANGE_3G                    0x00
-#define ACC_RANGE_6G                    0x01
-#define ACC_RANGE_12G                   0x02
-#define ACC_RANGE_24G                   0x03
+#define ACC_RANGE_3G                                0x00
+#define ACC_RANGE_6G                                0x01
+#define ACC_RANGE_12G                               0x02
+#define ACC_RANGE_24G                               0x03
 
 // ACC_FIFO_CONFIG_0 Parameters
-#define ACC_FIFO_CONFIG_0_MODE_STREAM   0x00
-#define ACC_FIFO_CONFIG_0_MODE_FIFO     0x01
+#define ACC_FIFO_CONFIG_0_MODE_STREAM               0x00
+#define ACC_FIFO_CONFIG_0_MODE_FIFO                 0x01
 
 // INT1_IO_CONF Parameters
-#define INT1_IO_CONF_OD_PP              0x00
-#define INT1_IO_CONF_OD_OD              0x01
+#define INT1_IO_CONF_OD_PP                          0x00
+#define INT1_IO_CONF_OD_OD                          0x01
 
-#define INT1_IO_CONF_LVL_ACTIVE_LOW     0x00
-#define INT1_IO_CONF_LVL_ACTIVE_HIGH    0x01
+#define INT1_IO_CONF_LVL_ACTIVE_LOW                 0x00
+#define INT1_IO_CONF_LVL_ACTIVE_HIGH                0x01
 
 // INT2_IO_CONF Parameters
-#define INT2_IO_CONF_OD_PP              0x00
-#define INT2_IO_CONF_OD_OD              0x01
+#define INT2_IO_CONF_OD_PP                          0x00
+#define INT2_IO_CONF_OD_OD                          0x01
 
-#define INT2_IO_CONF_LVL_ACTIVE_LOW     0x00
-#define INT2_IO_CONF_LVL_ACTIVE_HIGH    0x01
+#define INT2_IO_CONF_LVL_ACTIVE_LOW                 0x00
+#define INT2_IO_CONF_LVL_ACTIVE_HIGH                0x01
 
 // ACC_SELF_TEST Parameters
-#define ACC_SELF_TEST_OFF               0x00
-#define ACC_SELF_TEST_ENABLE_POSITIVE   0x0D
-#define ACC_SELF_TEST_ENABLE_NEGATIVE   0x09
+#define ACC_SELF_TEST_OFF                           0x00
+#define ACC_SELF_TEST_ENABLE_POSITIVE               0x0D
+#define ACC_SELF_TEST_ENABLE_NEGATIVE               0x09
 
 // ACC_PWR_CONF Parameters
-#define ACC_PWR_CONF_SUSPEND_MODE       0x03
-#define ACC_PWR_CONF_ACTIVE_MODE        0x00
+#define ACC_PWR_CONF_SUSPEND_MODE                   0x03
+#define ACC_PWR_CONF_ACTIVE_MODE                    0x00
 
 // ACC_PWR_CTRL Parameters
-#define ACC_PWR_CTRL_ENABLE_OFF         0x00
-#define ACC_PWR_CTRL_ENABLE_ON          0x04
+#define ACC_PWR_CTRL_ENABLE_OFF                     0x00
+#define ACC_PWR_CTRL_ENABLE_ON                      0x04
 
+
+// Gyroscope Parameter Definitions
+
+// GYRO_RANGE Parameters
+#define GYRO_RANGE_2000_DEG_S                       0x00
+#define GYRO_RANGE_1000_DEG_S                       0x01
+#define GYRO_RANGE_500_DEG_S                        0x02
+#define GYRO_RANGE_250_DEG_S                        0x03
+#define GYRO_RANGE_125_DEG_S                        0x04
+
+// GYRO_BANDWIDTH Parameters
+#define GYRO_BANDWIDTH_ODR_2000_HZ_FILTER_532_HZ    0x00
+#define GYRO_BANDWIDTH_ODR_2000_HZ_FILTER_230_HZ    0x01
+#define GYRO_BANDWIDTH_ODR_1000_HZ_FILTER_116_HZ    0x02
+#define GYRO_BANDWIDTH_ODR_400_HZ_FILTER_47_HZ      0x03
+#define GYRO_BANDWIDTH_ODR_200_HZ_FILTER_23_HZ      0x04
+#define GYRO_BANDWIDTH_ODR_100_HZ_FILTER_12_HZ      0x05
+#define GYRO_BANDWIDTH_ODR_200_HZ_FILTER_64_HZ      0x06
+#define GYRO_BANDWIDTH_ODR_100_HZ_FILTER_32_HZ      0x07
+
+// GYRO_LPM1 Parameters
+#define GYRO_LMP1_NORMAL_MODE                       0x00
+#define GYRO_LMP1_SUSPEND_MODE                      0x80
+#define GYRO_LMP1_DEEP_SUSPEND_MODE                 0x20
+
+// INT3_INT4_IO_CONF Parameters
+#define INT3_INT4_IO_CONF_INT4_OD_PP                0x00
+#define INT3_INT4_IO_CONF_INT4_OD_OD                0x01
+#define INT3_INT4_IO_CONF_INT4_LVL_ACTIVE_LOW       0x00
+#define INT3_INT4_IO_CONF_INT4_LVL_ACTIVE_HIGH      0x01
+
+#define INT3_INT4_IO_CONF_INT3_OD_PP                0x00
+#define INT3_INT4_IO_CONF_INT3_OD_OD                0x01
+#define INT3_INT4_IO_CONF_INT3_LVL_ACTIVE_LOW       0x00
+#define INT3_INT4_IO_CONF_INT3_LVL_ACTIVE_HIGH      0x01
+
+// FIFO_WM_ENABLE Parameters
+#define FIFO_WM_EN_INTERRUPT_DISABLE                0x08
+#define FIFO_WM_EN_INTERRUPT_ENABLE                 0x88
+
+// FIFO_EXT_INT_S Parameters
+#define FIFO_EXT_INT_S_INT3_SOURCE                  0x00
+#define FIFO_EXT_INT_S_INT4_SOURCE                  0x01
+
+// FIFO_CONFIG_1 Parameters
+#define GYRO_FIFO_CONFIG_1_MODE_FIFO                0x40
+#define GYRO_FIFO_CONFIG_1_MODE_STREAM              0x80
 
 #endif
