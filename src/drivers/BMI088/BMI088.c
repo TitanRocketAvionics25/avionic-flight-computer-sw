@@ -15,12 +15,23 @@ BMI088Status BMI088_SetInterface( BMI088Interface* inter )
     return BMI088_FAIL;
 };
 
-void BMI088_Read( uint8_t startAddr, uint8_t* rxBuff, uint16_t rxSize )
+void BMI088_Read( uint8_t devAddr, uint8_t startAddr, uint8_t* rxBuff, uint16_t rxSize )
 {
     uint8_t dataBuff[ 2 ] = { 0 };
 
-    dataBuff[ 0 ] = SLAVE_ADDRESS << 1;
+    dataBuff[ 0 ] = devAddr << 1;
     dataBuff[ 1 ] = startAddr;
 
     interface.i2cRead( dataBuff, sizeof( dataBuff ), rxBuff, rxSize );
+}
+
+void BMI088_Write( uint8_t devAddr, uint8_t addr, uint8_t data )
+{
+    uint8_t dataBuff[ 3 ] = { 0 };
+
+    dataBuff[ 0 ] = devAddr << 1;
+    dataBuff[ 1 ] = addr;
+    dataBuff[ 2 ] = data;
+
+    interface.i2cWrite( dataBuff, sizeof( dataBuff ) );
 }

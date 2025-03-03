@@ -52,15 +52,15 @@ TEST( BMI088, RequireFullInterface )
 TEST( BMI088, ReadSlaveAddressShiftedSentFirst )
 {
     uint8_t rxBuff[ 1 ];
-    BMI088_Read( RATE_Z_MSB, rxBuff, 1 );
-    TEST_ASSERT_EQUAL( SLAVE_ADDRESS << 1,FakeRead_GetLastCmd8Arr()[ 0 ] );
+    BMI088_Read( GYRO_SLAVE_ADDRESS, RATE_Z_MSB, rxBuff, 1 );
+    TEST_ASSERT_EQUAL( GYRO_SLAVE_ADDRESS << 1,FakeRead_GetLastCmd8Arr()[ 0 ] );
 }
 
 
 TEST( BMI088, ReadRegisterAddressSentSecond )
 {
     uint8_t rxBuff[ 1 ];
-    BMI088_Read( RATE_Z_MSB, rxBuff, 1 );
+    BMI088_Read( GYRO_SLAVE_ADDRESS, RATE_Z_MSB, rxBuff, 1 );
     TEST_ASSERT_EQUAL( RATE_Z_MSB, FakeRead_GetLastCmd8Arr()[ 1 ] );
 }
 
@@ -72,6 +72,30 @@ TEST( BMI088, ReadReceivesOnlySpecifiedNumOfBytes )
     uint8_t expected[] = { 0x22, 0x11 };
 
     uint8_t rxBuff[ 2 ];
-    BMI088_Read( RATE_Z_MSB, rxBuff, sizeof( rxBuff ) );
+    BMI088_Read( GYRO_SLAVE_ADDRESS,RATE_Z_MSB , rxBuff, sizeof( rxBuff ) );
     TEST_ASSERT_EQUAL_UINT8_ARRAY( expected, rxBuff, sizeof( rxBuff ) );
+}
+
+
+TEST( BMI088, WriteSlaveAddressShiftedSentFirst )
+{
+    uint8_t data = 0x01;
+    BMI088_Write( ACC_SLAVE_ADDRESS, ACC_PWR_CTRL, data ); 
+    TEST_ASSERT_EQUAL( ACC_SLAVE_ADDRESS << 1, WriteSpy_GetLastWrite8Arr()[ 0 ] );
+}
+
+
+TEST( BMI088, WriteRegisterAddressSentSecond )
+{
+    uint8_t data = 0x01;
+    BMI088_Write( ACC_SLAVE_ADDRESS, ACC_PWR_CTRL, data ); 
+    TEST_ASSERT_EQUAL( ACC_PWR_CTRL, WriteSpy_GetLastWrite8Arr()[ 1 ] );
+}
+
+
+TEST( BMI088, WriteActualDataSentThird )
+{
+    uint8_t data = 0x01;
+    BMI088_Write( ACC_SLAVE_ADDRESS, ACC_PWR_CTRL, data ); 
+    TEST_ASSERT_EQUAL( data, WriteSpy_GetLastWrite8Arr()[ 2 ] );
 }

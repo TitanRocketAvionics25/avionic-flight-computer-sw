@@ -1,6 +1,6 @@
 sources = src/drivers/BMI088
 
-hw_sources = src/ src/startup src/SystemClock
+hw_sources = src/ src/startup src/SystemClock src/I2CInit
 
 WFLAGS = -Wall
 
@@ -14,7 +14,7 @@ UTFS_WFLAGS = $(WFLAGS)
 CLISTM_SRC_DIRS = $(sources) $(hw_sources)
 CLISTM_BUILD_DIR = $(build)
 CLISTM_MODEL_NUM = STM32F411xE
-CLISTM_HAL_MODULES = gpio
+CLISTM_HAL_MODULES = gpio dma i2c
 CLISTM_STARTUP_FILE = src/startup/startup.c
 CLISTM_WFLAGS = $(WFLAGS)
 

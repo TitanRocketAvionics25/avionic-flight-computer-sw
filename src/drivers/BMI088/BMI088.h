@@ -17,6 +17,8 @@ typedef struct
 
 BMI088Status BMI088_SetInterface( BMI088Interface* inter );
 
-void BMI088_Read( uint8_t startAddr, uint8_t* rxBuff, uint16_t rxSize );
+void BMI088_Read( uint8_t devAddr, uint8_t startAddr, uint8_t* rxBuff, uint16_t rxSize );
+
+void BMI088_Write( uint8_t devAddr, uint8_t addr, uint8_t data );
 
 #endif
