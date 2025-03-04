@@ -169,4 +169,121 @@
 #define BMP581_CHIP_STATUS_I3C_ERR_3_Pos            3U
 #define BMP581_CHIP_STATUS_I3C_ERR_3_Msk            BMP581_1BIT << BMP581_CHIP_STATUS_I3C_ERR_3_Pos
 
+
+// Parameter Definitons
+
+// CMD parameter definitions
+#define BMP581_CMD_1 0x5D
+#define BMP581_CMD_2 0x69
+#define BMP581_CMD_3 0x73
+#define BMP581_CMD_4 0xA0
+#define BMP581_CMD_5 0xA5
+#define BMP581_CMD_6 0xB4
+#define BMP581_CMD_7 0xB6
+
+// ODR_CONFIG parameter definitions
+#define BMP581_ODR_CONFIG_PWR_MODE_STNBY            0x0
+#define BMP581_ODR_CONFIG_PWR_MODE_NORM             0x1
+#define BMP581_ODR_CONFIG_PWR_MODE_FORCED           0x2
+#define BMP581_ODR_CONFIG_PWR_MODE_NON_STOP         0x3
+
+#define BMP581_ODR_CONFIG_ODR_240_HZ                0x00
+#define BMP581_ODR_CONFIG_ODR_218pt537_HZ           0x01
+#define BMP581_ODR_CONFIG_ODR_199pt111_HZ           0x02
+#define BMP581_ODR_CONFIG_ODR_179pt200_HZ           0x03
+#define BMP581_ODR_CONFIG_ODR_160_HZ                0x04
+#define BMP581_ODR_CONFIG_ODR_149pt333_HZ           0x05
+#define BMP581_ODR_CONFIG_ODR_140_HZ                0x06
+#define BMP581_ODR_CONFIG_ODR_129pt855_HZ           0x07
+#define BMP581_ODR_CONFIG_ODR_120_HZ                0x08
+#define BMP581_ODR_CONFIG_ODR_110pt164_HZ           0x09
+#define BMP581_ODR_CONFIG_ODR_100pt299_HZ           0x0A
+#define BMP581_ODR_CONFIG_ODR_89pt6_HZ              0x0B
+#define BMP581_ODR_CONFIG_ODR_80_HZ                 0x0C
+#define BMP581_ODR_CONFIG_ODR_70_HZ                 0x0D
+#define BMP581_ODR_CONFIG_ODR_60_HZ                 0x0E
+#define BMP581_ODR_CONFIG_ODR_50pt056_HZ            0x0F
+#define BMP581_ODR_CONFIG_ODR_45pt025_HZ            0x10
+#define BMP581_ODR_CONFIG_ODR_40_HZ                 0x11
+#define BMP581_ODR_CONFIG_ODR_35_HZ                 0x12
+#define BMP581_ODR_CONFIG_ODR_30_HZ                 0x13
+#define BMP581_ODR_CONFIG_ODR_25pt005_HZ            0x14
+#define BMP581_ODR_CONFIG_ODR_20_HZ                 0x15
+#define BMP581_ODR_CONFIG_ODR_15_HZ                 0x16
+#define BMP581_ODR_CONFIG_ODR_10_HZ                 0x17
+#define BMP581_ODR_CONFIG_ODR_5_HZ                  0x18
+#define BMP581_ODR_CONFIG_ODR_4_HZ                  0x19
+#define BMP581_ODR_CONFIG_ODR_3_HZ                  0x1A
+#define BMP581_ODR_CONFIG_ODR_2_HZ                  0x1B
+#define BMP581_ODR_CONFIG_ODR_1_HZ                  0x1C
+#define BMP581_ODR_CONFIG_ODR_pt500_HZ              0x1D
+#define BMP581_ODR_CONFIG_ODR_pt250_HZ              0x1E
+#define BMP581_ODR_CONFIG_ODR_pt125_HZ              0x1F
+
+// OSR_CONFIG parameter definitions
+#define BMP581_OSR_CONFIG_OSR_T_1X                  0x0
+#define BMP581_OSR_CONFIG_OSR_T_2X                  0x1
+#define BMP581_OSR_CONFIG_OSR_T_4X                  0x2
+#define BMP581_OSR_CONFIG_OSR_T_8X                  0x3
+#define BMP581_OSR_CONFIG_OSR_T_16X                 0x4
+#define BMP581_OSR_CONFIG_OSR_T_32X                 0x5
+#define BMP581_OSR_CONFIG_OSR_T_64X                 0x6
+#define BMP581_OSR_CONFIG_OSR_T_128X                0x7
+
+#define BMP581_OSR_CONFIG_OSR_P_1X                  0x0
+#define BMP581_OSR_CONFIG_OSR_P_2X                  0x1
+#define BMP581_OSR_CONFIG_OSR_P_4X                  0x2
+#define BMP581_OSR_CONFIG_OSR_P_8X                  0x3
+#define BMP581_OSR_CONFIG_OSR_P_16X                 0x4
+#define BMP581_OSR_CONFIG_OSR_P_32X                 0x5
+#define BMP581_OSR_CONFIG_OSR_P_64X                 0x6
+#define BMP581_OSR_CONFIG_OSR_P_128X                0x7
+
+// OOR_CONFIG parameter definitions
+#define BMP581_OOR_CONFIG_CNT_LIM_1                 0x0
+#define BMP581_OOR_CONFIG_CNT_LIM_3                 0x1
+#define BMP581_OOR_CONFIG_CNT_LIM_7                 0x2
+#define BMP581_OOR_CONFIG_CNT_LIM_15                0x3
+
+// DSP_IIR parameter definitions
+#define BMP581_DSP_IIR_T_BYPASS                     0x0
+#define BMP581_DSP_IIR_T_COEF_1                     0x1
+#define BMP581_DSP_IIR_T_COEF_3                     0x2
+#define BMP581_DSP_IIR_T_COEF_7                     0x3
+#define BMP581_DSP_IIR_T_COEF_15                    0x4
+#define BMP581_DSP_IIR_T_COEF_31                    0x5
+#define BMP581_DSP_IIR_T_COEF_63                    0x6
+#define BMP581_DSP_IIR_T_COEF_127                   0x7
+
+#define BMP581_DSP_IIR_P_BYPASS                     0x0
+#define BMP581_DSP_IIR_P_COEF_1                     0x1
+#define BMP581_DSP_IIR_P_COEF_3                     0x2
+#define BMP581_DSP_IIR_P_COEF_7                     0x3
+#define BMP581_DSP_IIR_P_COEF_15                    0x4
+#define BMP581_DSP_IIR_P_COEF_31                    0x5
+#define BMP581_DSP_IIR_P_COEF_63                    0x6
+#define BMP581_DSP_IIR_P_COEF_127                   0x7
+
+// FIFO_SEL parameter definitions
+#define BMP581_FIFO_SEL_FRAME_SEL_FIFO_NOT_EN       0x0
+#define BMP581_FIFO_SEL_FRAME_SEL_TEMP_DATA         0x1
+#define BMP581_FIFO_SEL_FRAME_SEL_PRESS_DATA        0x2
+#define BMP581_FIFO_SEL_FRAME_SEL_PRESS_TEMP_DATA   0x3
+
+// FIFO_CONFIG parameter definitions
+#define BMP581_FIFO_CONFIG_THRESH_DISABLE           0x0
+#define BMP581_FIFO_CONFIG_THRESH_31_FRAMES         0x1F
+
+#define BMP581_FIFO_CONFIG_MODE_STREAM_TO_FIFO      0x0
+#define BMP581_FIFO_CONFIG_MODE_STOP_ON_FULL        0x1
+
+// DRIVE_CONFIG parameter definitions
+#define BMP581_DRIVE_CONFIG_SPI3_EN_4_WIRE_MODE     0x0
+#define BMP581_DRIVE_CONFIG_SPI3_EN_3_WIRE_MODE     0x1
+
+#define BMP581_CHIP_STATUS_HIF_MODE_I2C_ONLY        0x0
+#define BMP581_CHIP_STATUS_HIF_MODE_SPI1_SPI2       0x1
+#define BMP581_CHIP_STATUS_HIF_MODE_SPI0_SPI3       0x2
+#define BMP581_CHIP_STATUS_HIF_MODE_SPI_I2C         0x3
+
 #endif
