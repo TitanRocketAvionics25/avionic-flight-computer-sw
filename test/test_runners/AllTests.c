@@ -5,6 +5,7 @@ static void RunAllTests(void)
     RUN_TEST_GROUP( FakeRead );
     RUN_TEST_GROUP( WriteSpy );
     RUN_TEST_GROUP( BMI088   );
+    RUN_TEST_GROUP( BMP581   );
 }
 
 int main(int argc, const char* argv[])

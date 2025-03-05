@@ -2,6 +2,8 @@
 #define __BMP581_DEFS_H__
 
 
+#define BMP581_SLAVE_ADDRESS           0x00
+
 // Register address definitions
 #define BMP581_CMD              0x7E
 
