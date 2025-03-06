@@ -35,8 +35,6 @@ typedef struct
 // NOTE: the bmp581 auto increments the address so that multiple sequential registers can be read
 //       in one transaction
 //
-// devAddr   : slave address of device
-//
 // startAddr : register address to begin read from
 //
 // rxBuff    : buffer to hold read back bytes
@@ -44,19 +42,17 @@ typedef struct
 // rxSize    : total bytes to read
 //
 // bmp       : bmp581 instance
-void bmp581_read( uint8_t devAddr, uint8_t startAddr, uint8_t* rxBuff, uint16_t rxSize, bmp581_t* bmp );
+void bmp581_read( uint8_t startAddr, uint8_t* rxBuff, uint16_t rxSize, bmp581_t* bmp );
 
 
 // Write to a single register
-//
-// devAddr : slave address of device
 //
 // addr    : register address to write to
 //
 // data    : data to write into register
 //
 // bmp     : bmp581 instance
-void bmp581_write( uint8_t devAddr, uint8_t addr, uint8_t data, bmp581_t* bmp );
+void bmp581_write( uint8_t addr, uint8_t data, bmp581_t* bmp );
 
 
 #endif
