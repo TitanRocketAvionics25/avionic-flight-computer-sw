@@ -1,6 +1,6 @@
 sources = src/drivers/bmi088 src/drivers/bmp581
 
-hw_sources = src/ src/startup src/SystemClock src/I2CInit
+hw_sources = src/ src/startup src/SystemClock src/i2cconf
 
 WFLAGS = -Wall
 
