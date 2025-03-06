@@ -1,4 +1,4 @@
-sources = src/drivers/bmi088 src/drivers/BMP581
+sources = src/drivers/bmi088 src/drivers/bmp581
 
 hw_sources = src/ src/startup src/SystemClock src/I2CInit
 
