@@ -3,7 +3,6 @@
 
 TEST_GROUP_RUNNER( BMP581 )
 {
-    RUN_TEST_CASE( BMP581, RequireFullInterface );
     RUN_TEST_CASE( BMP581, ReadSlaveAddressShiftedSentFirst );
     RUN_TEST_CASE( BMP581, ReadRegisterAddressSentSecond );
     RUN_TEST_CASE( BMP581, ReadReceivesOnlySpecifiedNumOfBytes );

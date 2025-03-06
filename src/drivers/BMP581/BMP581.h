@@ -14,12 +14,10 @@ typedef struct
 {
     void ( *i2cWrite )( uint8_t* data, uint16_t size );
     void ( *i2cRead  )( uint8_t* data, uint16_t dataSize, uint8_t* rxBuff, uint16_t rxSize );
-} BMP581Interface;
+} BMP581_t;
 
-BMP581Status BMP581_SetInterface( BMP581Interface* inter );
+void BMP581_Read( uint8_t devAddr, uint8_t startAddr, uint8_t* rxBuff, uint16_t rxSize, BMP581_t* bmp );
 
-void BMP581_Read( uint8_t devAddr, uint8_t startAddr, uint8_t* rxBuff, uint16_t rxSize );
-
-void BMP581_Write( uint8_t devAddr, uint8_t addr, uint8_t data );
+void BMP581_Write( uint8_t devAddr, uint8_t addr, uint8_t data, BMP581_t* bmp );
 
 #endif
