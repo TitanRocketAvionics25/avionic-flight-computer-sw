@@ -3,29 +3,17 @@
 
 #include <stddef.h>
 
-static BMI088Interface interface = { NULL };
-
-BMI088Status BMI088_SetInterface( BMI088Interface* inter )
-{
-    if ( inter->i2cWrite && inter->i2cRead )
-    {
-        interface = *inter;
-        return BMI088_SUCCESS;
-    }
-    return BMI088_FAIL;
-};
-
-void BMI088_Read( uint8_t devAddr, uint8_t startAddr, uint8_t* rxBuff, uint16_t rxSize )
+void BMI088_Read( uint8_t devAddr, uint8_t startAddr, uint8_t* rxBuff, uint16_t rxSize, BMI088_t* bmi )
 {
     uint8_t dataBuff[ 2 ] = { 0 };
 
     dataBuff[ 0 ] = devAddr << 1;
     dataBuff[ 1 ] = startAddr;
 
-    interface.i2cRead( dataBuff, sizeof( dataBuff ), rxBuff, rxSize );
+    bmi->i2cRead( dataBuff, sizeof( dataBuff ), rxBuff, rxSize );
 }
 
-void BMI088_Write( uint8_t devAddr, uint8_t addr, uint8_t data )
+void BMI088_Write( uint8_t devAddr, uint8_t addr, uint8_t data, BMI088_t* bmi )
 {
     uint8_t dataBuff[ 3 ] = { 0 };
 
@@ -33,5 +21,5 @@ void BMI088_Write( uint8_t devAddr, uint8_t addr, uint8_t data )
     dataBuff[ 1 ] = addr;
     dataBuff[ 2 ] = data;
 
-    interface.i2cWrite( dataBuff, sizeof( dataBuff ) );
+    bmi->i2cWrite( dataBuff, sizeof( dataBuff ) );
 }
