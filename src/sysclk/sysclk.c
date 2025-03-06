@@ -1,8 +1,10 @@
+#include "sysclk.h"
+
 #include "stm32f4xx_hal.h"
 #include "stm32f4xx_hal_rcc.h"
 #include "stm32f4xx_hal_flash_ex.h"
 
-void SystemClock_Config()
+void sysclk_config()
 {
   RCC_ClkInitTypeDef RCC_ClkInitStruct;
   RCC_OscInitTypeDef RCC_OscInitStruct;

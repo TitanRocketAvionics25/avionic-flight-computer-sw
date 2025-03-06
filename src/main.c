@@ -2,14 +2,14 @@
 #include "stm32f4xx_hal.h"
 #include "usart_print.h"
 
-#include "SystemClock.h"
+#include "sysclk.h"
 
 
 int main()
 {
     HAL_Init();
 
-    SystemClock_Config();
+    sysclk_config();
 
     UsartPrint_Init();
 
