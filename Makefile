@@ -1,6 +1,6 @@
 sources = src/drivers/bmi088 src/drivers/bmp581
 
-hw_sources = src/ src/startup src/sysclk src/i2cconf
+hw_sources = src/ src/startup src/sysclk src/i2cconf src/spiconf
 
 WFLAGS = -Wall
 
@@ -14,7 +14,7 @@ UTFS_WFLAGS = $(WFLAGS)
 CLISTM_SRC_DIRS = $(sources) $(hw_sources)
 CLISTM_BUILD_DIR = $(build)
 CLISTM_MODEL_NUM = STM32F411xE
-CLISTM_HAL_MODULES = gpio dma i2c
+CLISTM_HAL_MODULES = gpio dma i2c spi
 CLISTM_STARTUP_FILE = src/startup/startup.c
 CLISTM_WFLAGS = $(WFLAGS)
 
