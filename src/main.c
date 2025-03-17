@@ -4,6 +4,7 @@
 
 #include "sysclk.h"
 
+#define APB1_HZ 30E6
 
 int main()
 {
@@ -11,7 +12,7 @@ int main()
 
     sysclk_config();
 
-    UsartPrint_Init();
+    UsartPrint_Init( APB1_HZ );
 
     // Application code ...
 
