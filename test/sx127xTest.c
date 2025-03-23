@@ -37,22 +37,33 @@ TEST_TEAR_DOWN( SX127X )
 
 TEST( SX127X, WriteRWBitHigh )
 {
-    sx127x_write( SX127X_REG_LNA, 0xCC, &fakeSx );
+    uint8_t data = 0xCC;
+    sx127x_write( SX127X_REG_LNA, &data, sizeof( data ), &fakeSx );
     TEST_ASSERT_BIT_HIGH( 7, WriteSpy_GetLastWrite8Arr()[ 0 ] );
 }
 
 
 TEST( SX127X, Write7BitAddressInFirstByte )
 {
-    sx127x_write( SX127X_REG_LNA, 0xCC, &fakeSx );
+    uint8_t data = 0xCC;
+    sx127x_write( SX127X_REG_LNA, &data, sizeof( data ), &fakeSx );
     TEST_ASSERT_BITS( 0x7F, SX127X_REG_LNA, WriteSpy_GetLastWrite8Arr()[ 0 ] );
 }
 
 
 TEST( SX127X, WriteDataInSecondByte )
 {
-    sx127x_write( SX127X_REG_LNA, 0xCC, &fakeSx );
+    uint8_t data = 0xCC;
+    sx127x_write( SX127X_REG_LNA, &data, sizeof( data ), &fakeSx );
     TEST_ASSERT_EQUAL( 0xCC, WriteSpy_GetLastWrite8Arr()[ 1 ] );
+}
+
+
+TEST( SX127X, WriteMultipleBytesSent )
+{
+    uint8_t data[] = { 0xCC, 0xBB, 0xAA };
+    sx127x_write( SX127X_REG_LNA, data, sizeof( data ), &fakeSx );
+    TEST_ASSERT_EQUAL_UINT8_ARRAY( data, &WriteSpy_GetLastWrite8Arr()[ 1 ], sizeof( data ) );
 }
 
 

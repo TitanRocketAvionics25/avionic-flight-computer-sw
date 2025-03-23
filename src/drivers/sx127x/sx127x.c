@@ -15,10 +15,15 @@ void sx127x_read( uint8_t startAddr, uint8_t* rxBuff, uint16_t rxSize, sx127x_t*
 }
 
 
-void sx127x_write( uint8_t addr, uint8_t data, sx127x_t* sx )
+void sx127x_write( uint8_t startAddr, uint8_t* data, uint16_t dataSize, sx127x_t* sx )
 {
     uint8_t dataBuff[ WRITE_BUFF_SIZE ] = { 0 };
-    dataBuff[ ADDR ] = addr | RW_MASK;
-    dataBuff[ DATA ] = data;
+    dataBuff[ ADDR ] = startAddr | RW_MASK;
+    dataBuff[ DATA ] = data[ 0 ];
     sx->spi_write( dataBuff, sizeof( dataBuff ) );
+
+    if ( dataSize > 1 )
+    {
+        sx->spi_write( &data[ 1 ], dataSize - 1 );
+    }
 }

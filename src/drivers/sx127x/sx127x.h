@@ -15,6 +15,6 @@ void sx127x_read( uint8_t startAddr, uint8_t* rxBuff, uint16_t rxSize, sx127x_t*
 
 //void sx127x_read_byte( uint8_t addr, sx127x_t* sx );
 
-void sx127x_write( uint8_t addr, uint8_t data, sx127x_t* sx );
+void sx127x_write( uint8_t startAddr, uint8_t* data, uint16_t dataSize, sx127x_t* sx );
 
 #endif
