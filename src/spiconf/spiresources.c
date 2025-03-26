@@ -16,16 +16,21 @@ void HAL_SPI_MspInit( SPI_HandleTypeDef* hspi )
         GPIO_InitTypeDef spiGpio;
         
         // Port A SPI1 pins (AF5)
-        // PA4: chip select
         // PA5: sck
         // PA6: miso
         // PA7: mosi
-        spiGpio.Pin       = GPIO_PIN_4 | GPIO_PIN_5 | GPIO_PIN_6 | GPIO_PIN_7;
+        spiGpio.Pin       = GPIO_PIN_5 | GPIO_PIN_6 | GPIO_PIN_7;
         spiGpio.Alternate = GPIO_AF5_SPI1;
         spiGpio.Mode      = GPIO_MODE_AF_PP;
         spiGpio.Speed     = GPIO_SPEED_FREQ_VERY_HIGH;
-
         HAL_GPIO_Init( GPIOA, &spiGpio );
+
+        // PA4: chip select
+        GPIO_InitTypeDef cs = { 0 };
+        cs.Pin = GPIO_PIN_4;
+        cs.Mode = GPIO_MODE_OUTPUT_PP;
+        HAL_GPIO_Init( GPIOA, &cs );
+
 
         // Set CS high
         HAL_GPIO_WritePin( GPIOA, GPIO_PIN_4, GPIO_PIN_SET );

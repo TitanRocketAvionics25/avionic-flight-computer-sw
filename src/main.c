@@ -5,32 +5,31 @@
 #include "usart_print.h"
 
 #include "i2cconf.h"
+#include "spiconf.h"
 
 #include "sysclk.h"
 #include "bmp581.h"
 #include "bmp581_defs.h"
+#include "sx127x.h"
+#include "sx127x_defs.h"
 
 #include "stm32f4xx_hal_gpio.h"
 
-#define APB1_HZ 30E6
+#define APB1_HZ 32E6
 
 #define PORT        GPIOA
 
+#define MARGIN      500.f
+
 #define YELLOW_IO   GPIO_PIN_5
-#define YELLOW_L    0.f
-#define YELLOW_H    60.f
-
 #define GREEN_IO    GPIO_PIN_6
-#define GREEN_L     0.f
-#define GREEN_H     60.f
-
 #define BLUE_IO     GPIO_PIN_7
-#define BLUE_L      0.f
-#define BLUE_H      60.f
-
 #define RED_IO      GPIO_PIN_8
-#define RED_L       0.f
-#define RED_H       60.f
+
+#define YELLOW_T    100700.f
+#define GREEN_T     99608.f
+#define BLUE_T      96244.f
+#define RED_T       71201.f
 
 
 void gpio_config()
@@ -62,9 +61,9 @@ float pa_to_psi( float pa )
     return pa / 6895.f;
 }
 
-void determinte_led_state( float press, float min, float max, uint16_t led )
+void determinte_led_state( float press, float goal, float margin, uint16_t led )
 {
-    if ( ( press > min ) && ( press < max ) )
+    if ( ( ( goal + margin ) > press ) && ( press > ( goal - margin ) ) )
         HAL_GPIO_WritePin( PORT, led, GPIO_PIN_SET );
     else 
         HAL_GPIO_WritePin( PORT, led, GPIO_PIN_RESET );
@@ -79,26 +78,57 @@ int main()
     UsartPrint_Init( APB1_HZ );
 
     // Application code ...
-    gpio_config();
-    i2cconf_config();
-    bmp581_t bmp =
+    //gpio_config();
+    //i2cconf_config();
+    //bmp581_t bmp =
+    //{
+    //    .i2c_write = i2cconf_write,
+    //    .i2c_read  = i2cconf_read
+    //};
+
+    //bmp581_non_stop_mode( &bmp );
+    //bmp581_enable_press( &bmp );
+
+    //// Super loop
+    //while (1)
+    //{
+    //    float press = bmp581_get_press( &bmp );
+    //    determinte_led_state( press, YELLOW_T, MARGIN, YELLOW_IO );
+    //    determinte_led_state( press, GREEN_T , MARGIN, GREEN_IO  );
+    //    determinte_led_state( press, BLUE_T  , MARGIN, BLUE_IO   );
+    //    determinte_led_state( press, RED_T   , MARGIN, RED_IO    );
+    //    printf("press_psi: %f\n", press);
+    //}
+    
+    spiconf_config();
+    sx127x_t sx =
     {
-        .i2c_write = i2cconf_write,
-        .i2c_read  = i2cconf_read
+        .spi_write  = spiconf_write,
+        .spi_read   = spiconf_read,
+        .spi_cs_set = spiconf_set_cs
     };
 
-    bmp581_non_stop_mode( &bmp );
-    bmp581_enable_press( &bmp );
+    uint8_t dataOrx[ 1 ] = { SX127X_REG_VERSION & ~0x80 };
+    uint8_t rx[1] = { 0 };
 
-    // Super loop
-    while (1)
+    GPIO_InitTypeDef rst = { 0 };
+    rst.Mode = GPIO_MODE_OUTPUT_PP;
+    rst.Pin = GPIO_PIN_10;
+
+    HAL_GPIO_Init( GPIOA ,&rst );
+    HAL_GPIO_WritePin( GPIOA, GPIO_PIN_10, GPIO_PIN_SET );
+    HAL_GPIO_WritePin( GPIOA, GPIO_PIN_10, GPIO_PIN_RESET );
+    HAL_Delay(10);
+    HAL_GPIO_WritePin( GPIOA, GPIO_PIN_10, GPIO_PIN_SET );
+    HAL_Delay(10);
+
+
+    sx127x_write_byte( SX127X_REG_OP_MODE, 0x05, &sx );
+
+    while ( 1 )
     {
-        float press_inhg = pa_to_inhg( bmp581_get_press( &bmp ) );
-        determinte_led_state( press_inhg, YELLOW_L, YELLOW_H, YELLOW_IO );
-        determinte_led_state( press_inhg, GREEN_L , GREEN_H , GREEN_IO  );
-        determinte_led_state( press_inhg, BLUE_L  , BLUE_H  , BLUE_IO   );
-        determinte_led_state( press_inhg, RED_L   , RED_H   , RED_IO    );
-        printf("press_inhg: %f\n", press_inhg);
+        printf("%02X\n", sx127x_read_byte( SX127X_REG_OP_MODE, &sx ));
+        HAL_Delay(500);
     }
 
     return 0;

@@ -21,7 +21,7 @@
 typedef struct 
 {
     void ( *spi_write  )( uint8_t* data, uint16_t size );
-    void ( *spi_read   )( uint8_t* data, uint16_t dataSize, uint8_t* rxBuff, uint16_t rxSize );
+    void ( *spi_read   )( uint8_t* data, uint8_t* rxBuff, uint16_t size );
     void ( *spi_cs_set )( uint8_t state );
 } sx127x_t;
 

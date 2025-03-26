@@ -16,7 +16,7 @@ TEST_GROUP( SX127X );
 static sx127x_t fakeSx =
 {
     .spi_write  = WriteSpy_Write8Arr,
-    .spi_read   = FakeRead_Read8ArrDiffSize,
+    .spi_read   = FakeRead_Read8Arr,
     .spi_cs_set = WriteSpy_Write8
 };
 
