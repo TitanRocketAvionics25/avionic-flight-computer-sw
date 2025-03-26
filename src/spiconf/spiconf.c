@@ -50,3 +50,12 @@ void spiconf_set_cs( uint8_t state )
         HAL_GPIO_WritePin( GPIOA, GPIO_PIN_4, GPIO_PIN_RESET );
 }
 
+
+void spiconf_set_rst( uint8_t state )
+{
+    if ( state )
+        HAL_GPIO_WritePin( GPIOA, GPIO_PIN_10, GPIO_PIN_SET );
+    else
+        HAL_GPIO_WritePin( GPIOA, GPIO_PIN_10, GPIO_PIN_RESET );
+}
+

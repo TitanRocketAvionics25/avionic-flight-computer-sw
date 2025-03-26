@@ -18,11 +18,17 @@
 //
 // spi_cs_set : set state of chip select pin
 //      state : chip select state (0 = low, 1 = high)
+//
+// rst_pin_set : set state of reset pin
+//      state : reset pin state (0 = low, 1 = high)
+// NOTE: should be left high during operation, a switch of low to high
+// can be used to perform reset of device
 typedef struct 
 {
-    void ( *spi_write  )( uint8_t* data, uint16_t size );
-    void ( *spi_read   )( uint8_t* data, uint8_t* rxBuff, uint16_t size );
-    void ( *spi_cs_set )( uint8_t state );
+    void ( *spi_write   )( uint8_t* data, uint16_t size );
+    void ( *spi_read    )( uint8_t* data, uint8_t* rxBuff, uint16_t size );
+    void ( *spi_cs_set  )( uint8_t state );
+    void ( *rst_pin_set )( uint8_t state );
 } sx127x_t;
 
 

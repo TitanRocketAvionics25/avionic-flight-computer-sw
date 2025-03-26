@@ -103,28 +103,14 @@ int main()
     spiconf_config();
     sx127x_t sx =
     {
-        .spi_write  = spiconf_write,
-        .spi_read   = spiconf_read,
-        .spi_cs_set = spiconf_set_cs
+        .spi_write   = spiconf_write,
+        .spi_read    = spiconf_read,
+        .spi_cs_set  = spiconf_set_cs,
+        .rst_pin_set = spiconf_set_rst
     };
 
-    uint8_t dataOrx[ 1 ] = { SX127X_REG_VERSION & ~0x80 };
-    uint8_t rx[1] = { 0 };
-
-    GPIO_InitTypeDef rst = { 0 };
-    rst.Mode = GPIO_MODE_OUTPUT_PP;
-    rst.Pin = GPIO_PIN_10;
-
-    HAL_GPIO_Init( GPIOA ,&rst );
-    HAL_GPIO_WritePin( GPIOA, GPIO_PIN_10, GPIO_PIN_SET );
-    HAL_GPIO_WritePin( GPIOA, GPIO_PIN_10, GPIO_PIN_RESET );
-    HAL_Delay(10);
-    HAL_GPIO_WritePin( GPIOA, GPIO_PIN_10, GPIO_PIN_SET );
-    HAL_Delay(10);
-
-
     sx127x_write_byte( SX127X_REG_OP_MODE, 0x05, &sx );
-
+    sx127x_write_byte( SX127X_REG_OP_MODE, 0x05, &sx );
     while ( 1 )
     {
         printf("%02X\n", sx127x_read_byte( SX127X_REG_OP_MODE, &sx ));
