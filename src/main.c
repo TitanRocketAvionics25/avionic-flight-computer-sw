@@ -109,11 +109,20 @@ int main()
         .rst_pin_set = spiconf_set_rst
     };
 
-    sx127x_write_byte( SX127X_REG_OP_MODE, 0x05, &sx );
-    sx127x_write_byte( SX127X_REG_OP_MODE, 0x05, &sx );
+    sx127x_lora_mode( &sx );
+    sx127x_set_coding_rate( 0x01, &sx );
+    sx127x_set_implicit_header_mode( &sx );
+    sx127x_set_bandwidth( 0x04, &sx );
+    sx127x_set_spreading_factor( 6, &sx );
+    sx127x_crc_enable( &sx );
+    sx127x_crc_disable( &sx );
+
     while ( 1 )
     {
+        printf("%02X\n", sx127x_read_byte( SX127X_LORA_REG_MODEM_CONFIG1, &sx ));
         printf("%02X\n", sx127x_read_byte( SX127X_REG_OP_MODE, &sx ));
+        printf("%02X\n", sx127x_read_byte( SX127X_LORA_REG_MODEM_CONFIG2, &sx ));
+        printf("\n");
         HAL_Delay(500);
     }
 

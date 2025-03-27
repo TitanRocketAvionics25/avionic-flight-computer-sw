@@ -72,5 +72,20 @@ void sx127x_write( uint8_t startAddr, uint8_t* data, uint16_t dataSize, sx127x_t
 // data : data to write into register address
 void sx127x_write_byte( uint8_t addr, uint8_t data, sx127x_t* sx );
 
+void sx127x_reset( sx127x_t* sx );
+void sx127x_sleep_mode( sx127x_t* sx );
+void sx127x_standby_mode( sx127x_t* sx );
+void sx127x_tx_mode( sx127x_t* sx );
+void sx127x_rxcontinuous_mode( sx127x_t* sx );
+void sx127x_rxsingle_mode( sx127x_t* sx );
+void sx127x_lora_mode( sx127x_t* sx );
+void sx127x_set_freq( uint64_t freq, sx127x_t* sx );
+void sx127x_set_implicit_header_mode( sx127x_t* sx );
+void sx127x_set_explicit_header_mode( sx127x_t* sx );
+void sx127x_set_coding_rate( uint8_t cr, sx127x_t* sx );
+void sx127x_set_bandwidth( uint8_t bw, sx127x_t* sx );
+void sx127x_set_spreading_factor( uint8_t sf, sx127x_t* sx );
+void sx127x_crc_enable( sx127x_t* sx );
+void sx127x_crc_disable( sx127x_t* sx );
 
 #endif
