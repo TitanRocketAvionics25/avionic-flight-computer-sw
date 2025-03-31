@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdint.h>
 
 #include "stm32f4xx.h"
 #include "stm32f4xx_hal.h"
@@ -110,20 +111,40 @@ int main()
     };
 
     sx127x_lora_mode( &sx );
-    sx127x_set_coding_rate( 0x01, &sx );
-    sx127x_set_implicit_header_mode( &sx );
-    sx127x_set_bandwidth( 0x04, &sx );
-    sx127x_set_spreading_factor( 6, &sx );
+    sx127x_set_coding_rate( SX127X_LORA_REG_MODEM_CONFIG1_CR_4ovr5, &sx );
+    sx127x_set_freq( 915E6, &sx );
+    sx127x_set_bandwidth( SX127X_LORA_REG_MODEM_CONFIG1_BW_125_KHZ, &sx );
+    sx127x_set_spreading_factor( SX127X_LORA_REG_MODEM_CONFIG2_SF_128_CPS, &sx );
+    sx127x_set_explicit_header_mode( &sx );
     sx127x_crc_enable( &sx );
-    sx127x_crc_disable( &sx );
+    sx127x_max_fifo( &sx );
+    uint8_t packet[50] = { 0 };
 
+    //sx127x_rxcontinuous_mode( &sx );
+    //while ( 1 )
+    //{
+    //    uint8_t size = sx127x_receive_packet( packet, sizeof( packet ), &sx );
+    //    printf( "packet: " );
+    //    for ( uint8_t i = 0; i < size; i++ )
+    //    {
+    //        printf( "%X,", packet[ i ] );
+    //    }
+    //    printf("\n");
+    //}
+
+    uint8_t count = 0;
     while ( 1 )
     {
-        printf("%02X\n", sx127x_read_byte( SX127X_LORA_REG_MODEM_CONFIG1, &sx ));
-        printf("%02X\n", sx127x_read_byte( SX127X_REG_OP_MODE, &sx ));
-        printf("%02X\n", sx127x_read_byte( SX127X_LORA_REG_MODEM_CONFIG2, &sx ));
+        sx127x_transmit_packet( packet, 30, &sx );
+        printf( "Sent packet: " );
+        for ( uint8_t i = 0; i < 30; i++ )
+        {
+            printf( "%X,", packet[ i ] );
+            packet[ i ] = count;
+        }
         printf("\n");
-        HAL_Delay(500);
+        count++;
+        HAL_Delay( 1000 );
     }
 
     return 0;

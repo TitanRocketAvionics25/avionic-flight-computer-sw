@@ -1,6 +1,8 @@
 #include "sx127x.h"
 #include "sx127x_defs.h"
 
+#include <stdio.h>
+
 
 #define RW_MASK 0x80
 #define WRITE_BUFF_SIZE 2
@@ -198,3 +200,77 @@ void sx127x_crc_disable( sx127x_t* sx )
                   SX127X_LORA_REG_MODEM_CONFIG2_RX_PAYLOAD_CRC_ON_Msk;
     sx127x_write_byte( SX127X_LORA_REG_MODEM_CONFIG2, cmd, sx );
 }
+
+
+void sx127x_max_fifo( sx127x_t* sx )
+{
+    sx127x_write_byte( SX127X_LORA_REG_FIFO_TX_BASE_ADDR, 0x00, sx );
+    sx127x_write_byte( SX127X_LORA_REG_FIFO_RX_BASE_ADDR, 0x00, sx );
+}
+
+
+void sx127x_transmit_packet( uint8_t* data, uint8_t size, sx127x_t* sx )
+{
+    // FIFO can only be filled in standby mode.
+    sx127x_standby_mode( sx );
+
+    // Initialize FIFO TX pointer to the TX base address.
+    uint8_t fifoTxPtrBase = sx127x_read_byte( SX127X_LORA_REG_FIFO_TX_BASE_ADDR, sx );
+    sx127x_write_byte( SX127X_LORA_REG_FIFO_ADDR_PTR, fifoTxPtrBase, sx );
+
+    // Write data to FIFO.
+    sx127x_write( SX127X_REG_FIFO, data, size, sx );
+
+    // Set payload length.
+    sx127x_write_byte( SX127X_LORA_REG_PAYLOAD_LENGTH, size, sx );
+
+    // Begin transmission.
+    sx127x_tx_mode( sx );
+
+    // Wait for TxDone IRQ flag to be set.
+    while( !( sx127x_read_byte( SX127X_LORA_REG_IRQ_FLAGS, sx ) & SX127X_LORA_REG_IRQ_FLAGS_TX_DONE_Msk ) );
+
+    // Clear TxDone IRQ.
+    sx127x_write_byte( SX127X_LORA_REG_IRQ_FLAGS, SX127X_LORA_REG_IRQ_FLAGS_TX_DONE_Msk, sx );
+
+    // At the end of TxDone the tranciever is put into standby automatically.
+}
+
+
+uint8_t sx127x_receive_packet( uint8_t* buffer, uint8_t size, sx127x_t*sx )
+{
+    // Ensure RxDone flag is set (ideally from an interrupt).
+    while ( !( sx127x_read_byte( SX127X_LORA_REG_IRQ_FLAGS, sx ) & SX127X_LORA_REG_IRQ_FLAGS_RX_DONE_Msk ) );
+
+    printf("Rx done\n");
+
+    // Read IRQ flags.
+    uint8_t irq = sx127x_read_byte( SX127X_LORA_REG_IRQ_FLAGS, sx ); 
+
+    // Clear flags.
+    sx127x_write_byte( SX127X_LORA_REG_IRQ_FLAGS, SX127X_LORA_REG_IRQ_FLAGS_VALID_HEADER_Msk | 
+                       SX127X_LORA_REG_IRQ_FLAGS_RX_DONE_Msk | 
+                       SX127X_LORA_REG_IRQ_FLAGS_PAYLOAD_CRC_ERR_Msk, sx );
+
+    uint8_t packetSize = 0;
+    // Check ValidHeader flag set but not PayloadCrcError.
+    if ( ( irq & SX127X_LORA_REG_IRQ_FLAGS_VALID_HEADER_Msk ) && 
+        !( irq & SX127X_LORA_REG_IRQ_FLAGS_PAYLOAD_CRC_ERR_Msk ) ) 
+    {
+        // Read RegRxNbBytes to get size of latest packet and RegFifoRxCurrentAddr for location.
+        packetSize = sx127x_read_byte( SX127X_LORA_REG_RX_NB_BYTES, sx );
+        if ( packetSize > size )  packetSize = size;
+
+        uint8_t packetLocation = sx127x_read_byte( SX127X_LORA_REG_FIFO_RX_CURRENT_ADDR, sx );
+
+        // Set RegFifoAddrPtr to RegFifoRxCurrentAddr which sets ptr to location of latest packet.
+        sx127x_write_byte( SX127X_LORA_REG_FIFO_ADDR_PTR, packetLocation, sx );
+
+        // Read RegFifo RegRxNbBytes times
+        sx127x_read( SX127X_REG_FIFO, buffer, packetSize, sx );
+    }
+
+    return packetSize;
+}
+
+
