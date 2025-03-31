@@ -111,6 +111,7 @@ int main()
     };
 
     sx127x_lora_mode( &sx );
+    sx127x_pa_boost( &sx );
     sx127x_set_coding_rate( SX127X_LORA_REG_MODEM_CONFIG1_CR_4ovr5, &sx );
     sx127x_set_freq( 915E6, &sx );
     sx127x_set_bandwidth( SX127X_LORA_REG_MODEM_CONFIG1_BW_125_KHZ, &sx );
@@ -144,7 +145,6 @@ int main()
         }
         printf("\n");
         count++;
-        HAL_Delay( 1000 );
     }
 
     return 0;

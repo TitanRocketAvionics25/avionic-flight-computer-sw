@@ -1,8 +1,6 @@
 #include "sx127x.h"
 #include "sx127x_defs.h"
 
-#include <stdio.h>
-
 
 #define RW_MASK 0x80
 #define WRITE_BUFF_SIZE 2
@@ -209,6 +207,13 @@ void sx127x_max_fifo( sx127x_t* sx )
 }
 
 
+void sx127x_pa_boost( sx127x_t* sx )
+{
+    uint8_t cmd = sx127x_read_byte( SX127X_REG_PA_CONFIG, sx ) | SX127X_REG_PA_CONFIG_SELECT_Msk;
+    sx127x_write_byte( SX127X_REG_PA_CONFIG, cmd, sx );
+}
+
+
 void sx127x_transmit_packet( uint8_t* data, uint8_t size, sx127x_t* sx )
 {
     // FIFO can only be filled in standby mode.
@@ -241,8 +246,6 @@ uint8_t sx127x_receive_packet( uint8_t* buffer, uint8_t size, sx127x_t*sx )
 {
     // Ensure RxDone flag is set (ideally from an interrupt).
     while ( !( sx127x_read_byte( SX127X_LORA_REG_IRQ_FLAGS, sx ) & SX127X_LORA_REG_IRQ_FLAGS_RX_DONE_Msk ) );
-
-    printf("Rx done\n");
 
     // Read IRQ flags.
     uint8_t irq = sx127x_read_byte( SX127X_LORA_REG_IRQ_FLAGS, sx ); 

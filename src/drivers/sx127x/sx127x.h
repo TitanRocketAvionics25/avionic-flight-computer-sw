@@ -88,6 +88,7 @@ void sx127x_set_spreading_factor( uint8_t sf, sx127x_t* sx );
 void sx127x_crc_enable( sx127x_t* sx );
 void sx127x_crc_disable( sx127x_t* sx );
 void sx127x_max_fifo( sx127x_t* sx );
+void sx127x_pa_boost( sx127x_t* sx );
 void sx127x_transmit_packet( uint8_t* data, uint8_t size, sx127x_t* sx );
 uint8_t sx127x_receive_packet( uint8_t* buffer, uint8_t size, sx127x_t*sx );
 
