@@ -33,10 +33,10 @@ void bmi088_read( uint8_t devAddr, uint8_t startAddr, uint8_t* rxBuff, uint16_t 
 }
 
 
-uint8_t bmi088_read_byte( uint8_t devAddr, uint8_t startAddr, bmi088_t* bmi )
+uint8_t bmi088_read_byte( uint8_t devAddr, uint8_t addr, bmi088_t* bmi )
 {
     uint8_t reading = 0;
-    bmi088_read( devAddr, startAddr, &reading, sizeof( reading ), bmi );
+    bmi088_read( devAddr, addr, &reading, sizeof( reading ), bmi );
     return reading;
 }
 
