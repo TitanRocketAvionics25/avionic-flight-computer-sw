@@ -5,12 +5,16 @@
 #include "stm32f4xx_hal.h"
 #include "usart_print.h"
 
+#include "sysclk.h"
 #include "i2cconf.h"
 #include "spiconf.h"
 
-#include "sysclk.h"
+#include "bmi088.h"
+#include "bmi088_defs.h"
+
 #include "bmp581.h"
 #include "bmp581_defs.h"
+
 #include "sx127x.h"
 #include "sx127x_defs.h"
 
@@ -100,26 +104,52 @@ int main()
     //    determinte_led_state( press, RED_T   , MARGIN, RED_IO    );
     //    printf("press_psi: %f\n", press);
     //}
-    
-    spiconf_config();
-    sx127x_t sx =
+   
+
+
+    i2cconf_config();
+    bmi088_t bmi = 
     {
-        .spi_write   = spiconf_write,
-        .spi_read    = spiconf_read,
-        .spi_cs_set  = spiconf_set_cs,
-        .rst_pin_set = spiconf_set_rst
+        .i2c_write = i2cconf_write,
+        .i2c_read  = i2cconf_read
     };
 
-    sx127x_lora_mode( &sx );
-    sx127x_pa_boost( &sx );
-    sx127x_set_coding_rate( SX127X_LORA_REG_MODEM_CONFIG1_CR_4ovr5, &sx );
-    sx127x_set_freq( 915E6, &sx );
-    sx127x_set_bandwidth( SX127X_LORA_REG_MODEM_CONFIG1_BW_125_KHZ, &sx );
-    sx127x_set_spreading_factor( SX127X_LORA_REG_MODEM_CONFIG2_SF_128_CPS, &sx );
-    sx127x_set_explicit_header_mode( &sx );
-    sx127x_crc_enable( &sx );
-    sx127x_max_fifo( &sx );
-    uint8_t packet[50] = { 0 };
+    bmi088_acc_enable( &bmi );
+    bmi088_acc_active_mode( &bmi );
+
+    bmi088_acc_t acc = { 0 };
+    while (1)
+    {
+        bmi088_get_acc( &acc, BMI088_ACC_RANGE_6G, &bmi );
+
+        printf( "x: %f\n", acc.x );
+        printf( "y: %f\n", acc.y );
+        printf( "z: %f\n", acc.z );
+        printf("\n");
+        HAL_Delay( 500 );
+    }
+
+
+
+    //spiconf_config();
+    //sx127x_t sx =
+    //{
+    //    .spi_write   = spiconf_write,
+    //    .spi_read    = spiconf_read,
+    //    .spi_cs_set  = spiconf_set_cs,
+    //    .rst_pin_set = spiconf_set_rst
+    //};
+
+    //sx127x_lora_mode( &sx );
+    //sx127x_pa_boost( &sx );
+    //sx127x_set_coding_rate( SX127X_LORA_REG_MODEM_CONFIG1_CR_4ovr5, &sx );
+    //sx127x_set_freq( 915E6, &sx );
+    //sx127x_set_bandwidth( SX127X_LORA_REG_MODEM_CONFIG1_BW_125_KHZ, &sx );
+    //sx127x_set_spreading_factor( SX127X_LORA_REG_MODEM_CONFIG2_SF_128_CPS, &sx );
+    //sx127x_set_explicit_header_mode( &sx );
+    //sx127x_crc_enable( &sx );
+    //sx127x_max_fifo( &sx );
+    //uint8_t packet[50] = { 0 };
 
     //sx127x_rxcontinuous_mode( &sx );
     //while ( 1 )
@@ -133,19 +163,19 @@ int main()
     //    printf("\n");
     //}
 
-    uint8_t count = 0;
-    while ( 1 )
-    {
-        sx127x_transmit_packet( packet, 30, &sx );
-        printf( "Sent packet: " );
-        for ( uint8_t i = 0; i < 30; i++ )
-        {
-            printf( "%X,", packet[ i ] );
-            packet[ i ] = count;
-        }
-        printf("\n");
-        count++;
-    }
+    //uint8_t count = 0;
+    //while ( 1 )
+    //{
+    //    sx127x_transmit_packet( packet, 30, &sx );
+    //    printf( "Sent packet: " );
+    //    for ( uint8_t i = 0; i < 30; i++ )
+    //    {
+    //        printf( "%X,", packet[ i ] );
+    //        packet[ i ] = count;
+    //    }
+    //    printf("\n");
+    //    count++;
+    //}
 
     return 0;
 }

@@ -30,6 +30,22 @@ typedef struct
 } bmi088_t;
 
 
+typedef struct
+{
+    int16_t x;
+    int16_t y;
+    int16_t z;
+} bmi088_acc_raw_t;
+
+
+typedef struct
+{
+    float x;
+    float y;
+    float z;
+} bmi088_acc_t;
+
+
 // Read registers starting from an address
 //
 // NOTE: the bmi088 auto increments the address so that multiple sequential registers can be read
@@ -46,6 +62,7 @@ typedef struct
 // bmi       : bmi088 instance
 void bmi088_read( uint8_t devAddr, uint8_t startAddr, uint8_t* rxBuff, uint16_t rxSize, bmi088_t* bmi );
 
+uint8_t bmi088_read_byte( uint8_t devAddr, uint8_t startAddr, bmi088_t* bmi );
 
 // Write to a single register
 //
@@ -58,5 +75,10 @@ void bmi088_read( uint8_t devAddr, uint8_t startAddr, uint8_t* rxBuff, uint16_t 
 // bmi     : bmi088 instance
 void bmi088_write( uint8_t devAddr, uint8_t addr, uint8_t data, bmi088_t* bmi );
 
+void bmi088_acc_enable( bmi088_t* bmi );
+void bmi088_acc_range( uint8_t range, bmi088_t* bmi );
+void bmi088_acc_active_mode( bmi088_t* bmi );
+void bmi088_get_raw_acc( bmi088_acc_raw_t* accRaw, bmi088_t* bmi );
+void bmi088_get_acc( bmi088_acc_t* acc, uint8_t accRange, bmi088_t* bmi );
 
 #endif
