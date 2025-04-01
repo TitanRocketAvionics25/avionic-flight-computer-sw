@@ -3,23 +3,24 @@
 
 #include <stddef.h>
 
-// Buffer sizes
+
+// Buffer sizes.
 #define READ_BUFF_SIZE  2
 #define WRITE_BUFF_SIZE 3
 #define TEMP_BUFF_SIZE  3
 #define PRESS_BUFF_SIZE 3
 
-// Indexes for I2C transmission buffers
+// Indexes for I2C transmission buffers.
 #define SLAVE_ADDR      0
 #define REG_ADDR        1
 #define DATA            2
 
-// Indexes for temperature and pressure data
+// Indexes for temperature and pressure data.
 #define XLSB            0
 #define LSB             1
 #define MSB             2
 
-// TTP stand for "to the power"
+// TTP stand for "to the power".
 #define TWO_TTP_16      65536.f
 #define TWO_TTP_6       64.f
 

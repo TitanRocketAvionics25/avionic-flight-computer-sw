@@ -2,13 +2,19 @@
 #include "sx127x_defs.h"
 
 
-#define RW_MASK 0x80
-#define WRITE_BUFF_SIZE 2
-#define ADDR 0
-#define DATA 1
+// Mask for read/write bit in SPI transaction.
+#define RW_MASK         0x80
 
-#define CS_LOW   0
-#define CS_HIGH  1
+// SPI write buffer size.
+#define WRITE_BUFF_SIZE 2
+
+// Indexes for SPI transaction buffer.
+#define ADDR            0
+#define DATA            1
+
+// Chip select pin states.
+#define CS_LOW          0
+#define CS_HIGH         1
 
 
 void sx127x_read( uint8_t startAddr, uint8_t* rxBuff, uint16_t rxSize, sx127x_t* sx )

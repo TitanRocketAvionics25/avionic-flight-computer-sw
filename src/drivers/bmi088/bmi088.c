@@ -4,22 +4,24 @@
 #include <stddef.h>
 
 
+// Buffer sizes.
 #define READ_BUFF_SIZE  2
 #define WRITE_BUFF_SIZE 3
+#define ACC_BUFF_SIZE   6
+#define GYRO_BUFF_SIZE  6
 
+// Indexes for I2C transmission buffers.
 #define SLAVE_ADDR      0
 #define REG_ADDR        1
 #define DATA            2
 
-#define ACC_BUFF_SIZE   6
-#define GYRO_BUFF_SIZE  6
-
-#define X_LSB 0
-#define X_MSB 1
-#define Y_LSB 2
-#define Y_MSB 3
-#define Z_LSB 4
-#define Z_MSB 5
+// Indexes for accelerometer and gyroscope data.
+#define X_LSB           0
+#define X_MSB           1
+#define Y_LSB           2
+#define Y_MSB           3
+#define Z_LSB           4
+#define Z_MSB           5
 
 
 void bmi088_read( uint8_t devAddr, uint8_t startAddr, uint8_t* rxBuff, uint16_t rxSize, bmi088_t* bmi )
