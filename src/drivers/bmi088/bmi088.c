@@ -12,6 +12,7 @@
 #define DATA            2
 
 #define ACC_BUFF_SIZE   6
+#define GYRO_BUFF_SIZE  6
 
 #define X_LSB 0
 #define X_MSB 1
@@ -102,3 +103,50 @@ void bmi088_get_acc( bmi088_acc_t* acc, uint8_t accRange, bmi088_t* bmi )
     acc->y = ( float )( accRaw.y / 32768.f * 1000.f * twoPwr * 1.5f );
     acc->z = ( float )( accRaw.z / 32768.f * 1000.f * twoPwr * 1.5f );
 }
+
+
+void bmi088_get_raw_gyro( bmi088_gyro_raw_t* gyroRaw, bmi088_t* bmi )
+{
+    uint8_t gyro[ GYRO_BUFF_SIZE ] = { 0 }; 
+    bmi088_read( BMI088_GYRO_SLAVE_ADDRESS, BMI088_RATE_X_LSB, gyro, sizeof( gyro ), bmi );
+
+    gyroRaw->x = ( int16_t )( ( gyro[ X_MSB ] << 8 ) | gyro[ X_LSB ] );
+    gyroRaw->y = ( int16_t )( ( gyro[ Y_MSB ] << 8 ) | gyro[ Y_LSB ] );
+    gyroRaw->z = ( int16_t )( ( gyro[ Z_MSB ] << 8 ) | gyro[ Z_LSB ] );
+}
+
+
+void bmi088_get_gyro( bmi088_gyro_t* gyro, uint8_t gyroRange, bmi088_t* bmi )
+{
+    bmi088_gyro_raw_t gyroRaw = { 0 };
+    bmi088_get_raw_gyro( &gyroRaw, bmi );
+
+    // Default value so step will become 1 if gyroRange is not an acceptable value.
+    float fullScaleRange = 32767.f;
+    switch ( gyroRange )
+    {
+        case BMI088_GYRO_RANGE_2000_DEG_S:
+            fullScaleRange = 2000.f;
+            break;
+        case BMI088_GYRO_RANGE_1000_DEG_S:
+            fullScaleRange = 1000.f;
+            break;
+        case BMI088_GYRO_RANGE_500_DEG_S:
+            fullScaleRange = 500.f;
+            break;
+        case BMI088_GYRO_RANGE_250_DEG_S:
+            fullScaleRange = 250.f;
+            break;
+        case BMI088_GYRO_RANGE_125_DEG_S:
+            fullScaleRange = 125.f;
+            break;
+    }
+
+    float step = fullScaleRange / 32767.f;
+
+    // Calculation found in section 5.5.2 of datasheet.
+    gyro->x = gyroRaw.x * step;
+    gyro->y = gyroRaw.y * step;
+    gyro->z = gyroRaw.z * step;
+}
+

@@ -46,6 +46,22 @@ typedef struct
 } bmi088_acc_t;
 
 
+typedef struct
+{
+    int16_t x;
+    int16_t y;
+    int16_t z;
+} bmi088_gyro_raw_t;
+
+
+typedef struct
+{
+    float x;
+    float y;
+    float z;
+} bmi088_gyro_t;
+
+
 // Read registers starting from an address
 //
 // NOTE: the bmi088 auto increments the address so that multiple sequential registers can be read
@@ -80,5 +96,7 @@ void bmi088_acc_range( uint8_t range, bmi088_t* bmi );
 void bmi088_acc_active_mode( bmi088_t* bmi );
 void bmi088_get_raw_acc( bmi088_acc_raw_t* accRaw, bmi088_t* bmi );
 void bmi088_get_acc( bmi088_acc_t* acc, uint8_t accRange, bmi088_t* bmi );
+void bmi088_get_raw_gyro( bmi088_gyro_raw_t* gyroRaw, bmi088_t* bmi );
+void bmi088_get_gyro( bmi088_gyro_t* gyro, uint8_t gyroRangeFullScale, bmi088_t* bmi );
 
 #endif

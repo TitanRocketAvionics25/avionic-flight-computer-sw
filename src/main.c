@@ -117,14 +117,14 @@ int main()
     bmi088_acc_enable( &bmi );
     bmi088_acc_active_mode( &bmi );
 
-    bmi088_acc_t acc = { 0 };
+    bmi088_gyro_t gyro = { 0 };
     while (1)
     {
-        bmi088_get_acc( &acc, BMI088_ACC_RANGE_6G, &bmi );
+        bmi088_get_gyro( &gyro, BMI088_GYRO_RANGE_2000_DEG_S, &bmi );
 
-        printf( "x: %f\n", acc.x );
-        printf( "y: %f\n", acc.y );
-        printf( "z: %f\n", acc.z );
+        printf( "x: %f\n", gyro.x );
+        printf( "y: %f\n", gyro.y );
+        printf( "z: %f\n", gyro.z );
         printf("\n");
         HAL_Delay( 500 );
     }
