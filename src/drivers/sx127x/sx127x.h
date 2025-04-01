@@ -72,24 +72,105 @@ void sx127x_write( uint8_t startAddr, uint8_t* data, uint16_t dataSize, sx127x_t
 // data : data to write into register address
 void sx127x_write_byte( uint8_t addr, uint8_t data, sx127x_t* sx );
 
+
+// Hardware reset IC.
 void sx127x_reset( sx127x_t* sx );
+
+
+// Put tranceiver into sleep mode.
+//
+// NOTE: clears FIFO
 void sx127x_sleep_mode( sx127x_t* sx );
+
+
+// Put tranceiver into standby mode.
 void sx127x_standby_mode( sx127x_t* sx );
+
+
+// Put tranceiver into transmit mode.
 void sx127x_tx_mode( sx127x_t* sx );
+
+
+// Put tranceiver into continuous receive mode.
+//
+// NOTE: remains in receive mode until explicitly changed
 void sx127x_rxcontinuous_mode( sx127x_t* sx );
+
+
+// Put tranceiver into single receive mode.
+//
+// NOTE: receives one transmission and returns back to standby.
 void sx127x_rxsingle_mode( sx127x_t* sx );
+
+
+// Put tranceiver into long range (LoRa) mode.
 void sx127x_lora_mode( sx127x_t* sx );
+
+
+// Set radio frequency.
+//
+// freq: desired frequency in Hz
 void sx127x_set_freq( uint64_t freq, sx127x_t* sx );
+
+
+// Set implicit header mode.
 void sx127x_set_implicit_header_mode( sx127x_t* sx );
+
+
+// Set explicit header mode.
 void sx127x_set_explicit_header_mode( sx127x_t* sx );
+
+
+// Set radio coding rate.
+//
+// cr: desired coding rate macro (see define file)
 void sx127x_set_coding_rate( uint8_t cr, sx127x_t* sx );
+
+
+// Set radio bandwidth.
+//
+// bw: desired bandwidth macro (see define file)
 void sx127x_set_bandwidth( uint8_t bw, sx127x_t* sx );
+
+
+// Set radio spreading factor.
+//
+// sf: desired spreading factor macro (see define file)
 void sx127x_set_spreading_factor( uint8_t sf, sx127x_t* sx );
+
+
+// Enable CRC check.
 void sx127x_crc_enable( sx127x_t* sx );
+
+
+// Disable CRC check
 void sx127x_crc_disable( sx127x_t* sx );
+
+
+// Maximize FIFO space. The TX and RX FIFO pointers
+// will both be placed at address 0x00 to obtain full 
+// access to the FIFO space.
 void sx127x_max_fifo( sx127x_t* sx );
+
+
+// Select PA boost pin for output.
 void sx127x_pa_boost( sx127x_t* sx );
+
+
+// Transmit data.
+//
+// data: data to transmit
+//
+// size: size of transmission in bytes
 void sx127x_transmit_packet( uint8_t* data, uint8_t size, sx127x_t* sx );
+
+
+// Receive data.
+//
+// buffer: array buffer to place received data
+//
+// size  : size of buffer in bytes
 uint8_t sx127x_receive_packet( uint8_t* buffer, uint8_t size, sx127x_t*sx );
+
 
 #endif
