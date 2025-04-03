@@ -10,7 +10,7 @@ static I2C_HandleTypeDef i2ch = { 0 };
 void i2cconf_config()
 {
     i2ch.Instance             = I2C1;
-    i2ch.Init.ClockSpeed      = 10240;
+    i2ch.Init.ClockSpeed      = 200E3;
     i2ch.Init.DutyCycle       = I2C_DUTYCYCLE_2;
     i2ch.Init.OwnAddress1     = 0;
     i2ch.Init.AddressingMode  = I2C_ADDRESSINGMODE_7BIT;
