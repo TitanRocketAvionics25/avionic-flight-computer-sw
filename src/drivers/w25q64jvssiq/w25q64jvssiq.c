@@ -1,4 +1,5 @@
 #include "w25q64jvssiq.h"
+#include "../../spiconf/spiconf.h"
 #include "SPI1.h"
 #include "delay.h"
 
@@ -13,9 +14,9 @@ void W25Q64JV_reset(void) {
     data_tx[0] = 0x66; // Enable Reset (66h)
     data_tx[1] = 0x99; // Reset (99h)
 
-    W25Q64JV_cs_low();
-    SPI1_transmit(data_tx, 2);
-    W25Q64JV_cs_high();
+    spiconf_set_cs(0);
+    spiconf_write(data_tx, 2);
+    spiconf_set_cs(1);
 }
 
 /* Reads JEDEC ID */
@@ -24,10 +25,10 @@ uint32_t W25Q64JV_readID(void) {
     uint8_t data_tx = 0x9f; // Instruction for JEDEC ID. 
     uint8_t data_read[3];
 
-    W25Q64JV_cs_low();
-    SPI1_transmit(&data_tx, 1);
-    SPI1_receive(data_read, 3);
-    W25Q64JV_cs_high();
+    spiconf_set_cs(0);
+    spiconf_write(&data_tx, 1);
+    spiconf_read(data_read, 3);
+    spiconf_set_cs(1);
 
 
     /* Manufacturer ID : Memory Type ID : Capacity ID */
@@ -42,31 +43,31 @@ void W25Q64JV_read(uint32_t sector, uint8_t offset, uint8_t *data_read, uint32_t
     uint8_t data_tx[4];
     uint32_t mem_addr = (sector * 256) + offset;
 
-    W25Q64JV_cs_low();
+    spiconf_set_cs(0);
 
     data_tx[0] = 0x03; // Enable read
     data_tx[1] = (mem_addr >> 16) & 0xFF; // MSB of mem_addr
     data_tx[2] = (mem_addr >> 8) & 0xFF;
     data_tx[3] = (mem_addr) & 0xFF; // LSB of mem_addr
 
-    SPI1_transmit(data_tx, 4);
-    SPI1_receive(data_read, size);
-    W25Q64JV_cs_high();
+    spiconf_write(data_tx, 4);
+    spiconf_read(data_read, size);
+    spiconf_set_cs(1);
 }
 
 static void write_enable(void) {
     uint8_t data_tx = 0x06; // Enable write
-    W25Q64JV_cs_low();
-    SPI1_transmit(&data_tx, 1);
-    W25Q64JV_cs_high();
+    spiconf_set_cs(0);
+    spiconf_write(&data_tx, 1);
+    spiconf_set_cs(1);
     delay(5); //5ms delay
 }
 
 static void write_disable(void) {
     uint8_t data_tx = 0x04;
-    W25Q64JV_cs_low();
-    SPI1_transmit(&data_tx, 1);
-    W25Q64JV_cs_high();
+    spiconf_set_cs(0);
+    spiconf_write(&data_tx, 1);
+    spiconf_set_cs(1);
     delay(5);
 }
 
@@ -81,9 +82,9 @@ void W25Q64JV_erase_sector(uint16_t sector) {
     data_tx[2] = (mem_addr >> 8) & 0xFF; 
     data_tx[3] = (mem_addr) & 0xFF; // LSB of mem_addr
     
-    W25Q64JV_cs_low();
-    SPI1_transmit(data_tx, 4);
-    W25Q64JV_cs_high();
+    spiconf_set_cs(0);
+    spiconf_write(data_tx, 4);
+    spiconf_set_cs(1);
 
     delay(500); // 400ms delay max for sector erase. Just to be sure 500ms.
 
@@ -133,9 +134,9 @@ void W25Q64JV_write(uint32_t page, uint16_t offset, uint8_t *data, uint32_t size
             data_tx[idx_data_tx++] = data[j + idx_data];
         }
 
-        W25Q64JV_cs_low();
-        SPI1_transmit(data_tx, bytes_to_send);
-        W25Q64JV_cs_high();
+        spiconf_set_cs(0);
+        spiconf_write(data_tx, bytes_to_send);
+        spiconf_set_cs(1);
 
         page_starting++;
         offset = 0;
