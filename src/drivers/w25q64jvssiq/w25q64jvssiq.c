@@ -2,6 +2,7 @@
 #include "../../spiconf/spiconf.h"
 #include "SPI1.h"
 #include "delay.h"
+#include <stdlib.h>
 
 uint16_t number_of_sectors;
 
@@ -22,12 +23,11 @@ void W25Q64JV_reset(void) {
 /* Reads JEDEC ID */
 
 uint32_t W25Q64JV_readID(void) {
-    uint8_t data_tx = 0x9f; // Instruction for JEDEC ID. 
-    uint8_t data_read[3];
+    uint8_t data_tx[4] = {0x9f}; // Instruction for JEDEC ID. 
+    uint8_t data_read[4];
 
     spiconf_set_cs(0);
-    spiconf_write(&data_tx, 1);
-    spiconf_read(data_read, 3);
+    spiconf_read(data_tx, data_read, 4);
     spiconf_set_cs(1);
 
 
@@ -40,7 +40,7 @@ void W25Q64JV_number_of_sector(uint16_t sector_num) {
 }
 
 void W25Q64JV_read(uint32_t sector, uint8_t offset, uint8_t *data_read, uint32_t size) {
-    uint8_t data_tx[4];
+    uint8_t* data_tx = (uint8_t *) malloc (size);
     uint32_t mem_addr = (sector * 256) + offset;
 
     spiconf_set_cs(0);
@@ -50,9 +50,9 @@ void W25Q64JV_read(uint32_t sector, uint8_t offset, uint8_t *data_read, uint32_t
     data_tx[2] = (mem_addr >> 8) & 0xFF;
     data_tx[3] = (mem_addr) & 0xFF; // LSB of mem_addr
 
-    spiconf_write(data_tx, 4);
-    spiconf_read(data_read, size);
+    spiconf_read(data_tx, data_read, size);
     spiconf_set_cs(1);
+    free(data_tx);
 }
 
 static void write_enable(void) {
