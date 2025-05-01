@@ -36,11 +36,11 @@ void spiconf_write( uint8_t* dataOut, uint16_t size )
 }
 
 
+
 void spiconf_read( uint8_t* dataOut, uint8_t* rxBuff, uint16_t size )
 {
     HAL_SPI_TransmitReceive( &hspi, dataOut, rxBuff, size, HAL_MAX_DELAY );
 }
-
 
 void spiconf_set_cs( uint8_t state )
 {
