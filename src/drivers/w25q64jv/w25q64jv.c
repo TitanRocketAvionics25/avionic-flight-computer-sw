@@ -1,8 +1,9 @@
-#include "w25q64jvssiq.h"
-#include "../../spiconf/spiconf.h"
-#include "SPI1.h"
-#include "delay.h"
+#include "w25q64jv.h"
+
 #include <stdlib.h>
+
+#include "spiconf.h"
+#include "stm32f4xx_hal.h"
 
 uint16_t number_of_sectors;
 
@@ -60,7 +61,7 @@ static void write_enable(void) {
     spiconf_set_cs(0);
     spiconf_write(&data_tx, 1);
     spiconf_set_cs(1);
-    delay(5); //5ms delay
+    HAL_Delay(5); //5ms delay
 }
 
 static void write_disable(void) {
@@ -68,7 +69,7 @@ static void write_disable(void) {
     spiconf_set_cs(0);
     spiconf_write(&data_tx, 1);
     spiconf_set_cs(1);
-    delay(5);
+    HAL_Delay(5);
 }
 
 void W25Q64JV_erase_sector(uint16_t sector) {
@@ -86,7 +87,7 @@ void W25Q64JV_erase_sector(uint16_t sector) {
     spiconf_write(data_tx, 4);
     spiconf_set_cs(1);
 
-    delay(500); // 400ms delay max for sector erase. Just to be sure 500ms.
+    HAL_Delay(500); // 400ms delay max for sector erase. Just to be sure 500ms.
 
     write_disable();
 }
@@ -143,7 +144,7 @@ void W25Q64JV_write(uint32_t page, uint16_t offset, uint8_t *data, uint32_t size
         size = size - bytes_remaining;
         idx_data = idx_data + bytes_remaining;
 
-        delay(5); 
+        HAL_Delay(5); 
         write_disable();
     }
 
@@ -166,7 +167,7 @@ void W25Q64JV_write(uint32_t page, uint16_t offset, uint8_t *data, uint32_t size
  *  W25Q64JV_cs_pins_init();
  *  SPI1_config();
  *  W25Q64JV_reset();
- *  delay(10)
+ *  HAL_Delay(10)
  *  
  * }
 */

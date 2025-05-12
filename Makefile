@@ -1,4 +1,5 @@
-sources = src/drivers/bmi088 src/drivers/bmp581 src/drivers/sx127x
+sources = src/drivers/bmi088 src/drivers/bmp581 src/drivers/sx127x \
+		  src/drivers/w25q64jv
 
 hw_sources = src/ src/startup src/sysclk src/i2cconf src/spiconf
 
