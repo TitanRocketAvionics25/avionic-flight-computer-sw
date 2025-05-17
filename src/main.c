@@ -9,6 +9,7 @@
 #include "sysclk.h"
 #include "i2cconf.h"
 #include "spiconf.h"
+#include "uartconf.h"
 
 #include "bmi088.h"
 #include "bmi088_defs.h"
@@ -19,8 +20,12 @@
 #include "sx127x.h"
 #include "sx127x_defs.h"
 
-#define APB1_HZ 32E6
+#define APB1_HZ 32000000U
 
+#define TEST_CODE
+#include "stm32f4xx_hal_uart.h"
+
+uint8_t c = 0;
 int main()
 {
     HAL_Init();
@@ -28,6 +33,20 @@ int main()
     sysclk_config();
 
     UsartPrint_Init( APB1_HZ );
+
+#ifdef TEST_CODE
+
+    GPIO_InitTypeDef led = { 0 };
+    led.Pin = GPIO_PIN_5;
+    led.Mode = GPIO_MODE_OUTPUT_PP;
+    HAL_GPIO_Init( GPIOA, &led );
+    HAL_GPIO_WritePin( GPIOA, GPIO_PIN_5, GPIO_PIN_SET );
+
+    uartconf_config();   
+    HAL_UART_Receive_IT( getUARTHandle(), &c, 1 );
+    while(1);
+
+#endif
 
 #ifdef APPLICATION_CODE
 
