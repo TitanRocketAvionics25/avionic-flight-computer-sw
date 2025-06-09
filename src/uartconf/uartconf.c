@@ -20,6 +20,7 @@ void uartconf_config()
     huart1.Init.Mode         = UART_MODE_RX;
     huart1.Init.HwFlowCtl    = UART_HWCONTROL_NONE;
     huart1.Init.OverSampling = UART_OVERSAMPLING_16;
+    huart1.hdmarx = NULL;
 
     HAL_UART_Init( &huart1 );
 }
@@ -43,8 +44,11 @@ void USART1_Handler()
 
 void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
 {
-    printf( "%c\n", charBuff );
     HAL_GPIO_TogglePin( GPIOA, GPIO_PIN_5 );
-    //HAL_Delay(1000);
     HAL_UART_Receive_IT( &huart1, &charBuff, 1 );
+}
+
+// Executed during receive process
+void HAL_UARTEx_RxEventCallback(UART_HandleTypeDef *huart, uint16_t Size)
+{
 }
