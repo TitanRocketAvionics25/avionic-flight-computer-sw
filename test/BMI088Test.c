@@ -35,16 +35,16 @@ TEST_TEAR_DOWN( BMI088 )
 TEST( BMI088, ReadSlaveAddressShiftedSentFirst )
 {
     uint8_t rxBuff[ 1 ];
-    bmi088_read( GYRO_SLAVE_ADDRESS, RATE_Z_MSB, rxBuff, 1, &fakeBmi );
-    TEST_ASSERT_EQUAL( GYRO_SLAVE_ADDRESS << 1,FakeRead_GetLastCmd8Arr()[ 0 ] );
+    bmi088_read( BMI088_GYRO_SLAVE_ADDRESS, BMI088_RATE_Z_MSB, rxBuff, 1, &fakeBmi );
+    TEST_ASSERT_EQUAL( BMI088_GYRO_SLAVE_ADDRESS << 1,FakeRead_GetLastCmd8Arr()[ 0 ] );
 }
 
 
 TEST( BMI088, ReadRegisterAddressSentSecond )
 {
     uint8_t rxBuff[ 1 ];
-    bmi088_read( GYRO_SLAVE_ADDRESS, RATE_Z_MSB, rxBuff, 1, &fakeBmi );
-    TEST_ASSERT_EQUAL( RATE_Z_MSB, FakeRead_GetLastCmd8Arr()[ 1 ] );
+    bmi088_read( BMI088_GYRO_SLAVE_ADDRESS, BMI088_RATE_Z_MSB, rxBuff, 1, &fakeBmi );
+    TEST_ASSERT_EQUAL( BMI088_RATE_Z_MSB, FakeRead_GetLastCmd8Arr()[ 1 ] );
 }
 
 
@@ -55,7 +55,7 @@ TEST( BMI088, ReadReceivesOnlySpecifiedNumOfBytes )
     uint8_t expected[] = { 0x22, 0x11 };
 
     uint8_t rxBuff[ 2 ];
-    bmi088_read( GYRO_SLAVE_ADDRESS,RATE_Z_MSB , rxBuff, sizeof( rxBuff ), &fakeBmi );
+    bmi088_read( BMI088_GYRO_SLAVE_ADDRESS,BMI088_RATE_Z_MSB , rxBuff, sizeof( rxBuff ), &fakeBmi );
     TEST_ASSERT_EQUAL_UINT8_ARRAY( expected, rxBuff, sizeof( rxBuff ) );
 }
 
@@ -63,22 +63,22 @@ TEST( BMI088, ReadReceivesOnlySpecifiedNumOfBytes )
 TEST( BMI088, WriteSlaveAddressShiftedSentFirst )
 {
     uint8_t data = 0x01;
-    bmi088_write( ACC_SLAVE_ADDRESS, ACC_PWR_CTRL, data, &fakeBmi ); 
-    TEST_ASSERT_EQUAL( ACC_SLAVE_ADDRESS << 1, WriteSpy_GetLastWrite8Arr()[ 0 ] );
+    bmi088_write( BMI088_ACC_SLAVE_ADDRESS, BMI088_ACC_PWR_CTRL, data, &fakeBmi ); 
+    TEST_ASSERT_EQUAL( BMI088_ACC_SLAVE_ADDRESS << 1, WriteSpy_GetLastWrite8Arr()[ 0 ] );
 }
 
 
 TEST( BMI088, WriteRegisterAddressSentSecond )
 {
     uint8_t data = 0x01;
-    bmi088_write( ACC_SLAVE_ADDRESS, ACC_PWR_CTRL, data, &fakeBmi ); 
-    TEST_ASSERT_EQUAL( ACC_PWR_CTRL, WriteSpy_GetLastWrite8Arr()[ 1 ] );
+    bmi088_write( BMI088_ACC_SLAVE_ADDRESS, BMI088_ACC_PWR_CTRL, data, &fakeBmi ); 
+    TEST_ASSERT_EQUAL( BMI088_ACC_PWR_CTRL, WriteSpy_GetLastWrite8Arr()[ 1 ] );
 }
 
 
 TEST( BMI088, WriteActualDataSentThird )
 {
     uint8_t data = 0x01;
-    bmi088_write( ACC_SLAVE_ADDRESS, ACC_PWR_CTRL, data, &fakeBmi ); 
+    bmi088_write( BMI088_ACC_SLAVE_ADDRESS, BMI088_ACC_PWR_CTRL, data, &fakeBmi ); 
     TEST_ASSERT_EQUAL( data, WriteSpy_GetLastWrite8Arr()[ 2 ] );
 }
