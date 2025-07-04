@@ -7,6 +7,7 @@ static void RunAllTests(void)
     RUN_TEST_GROUP( BMI088   );
     RUN_TEST_GROUP( BMP581   );
     RUN_TEST_GROUP( SX127X   );
+    RUN_TEST_GROUP( W25Q64JV   );
 }
 
 int main(int argc, const char* argv[])
